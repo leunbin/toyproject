@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>ToDo List</title>
+  <link rel="stylesheet" href="/css/todo.css">
+</head>
+<body>
+  <header class="header">
+    <h1 class="title">ToDo List</h1>
+
+    <nav class="nav">
+      <a href="/todos" class="btn">전체</a>
+      <a href="/todos/done/true" class="btn">완료</a>
+      <a href="/todos/done/false" class="btn">미완료</a>
+      <a href="/todos/latest" class="btn">최근 1개</a>
+    </nav>
+
+    <form class="search-form" action="/todos/search" method="get">
+      <input type="text" name="s" placeholder="제목 검색..." {{#search}}value="{{search}}"{{/search}}>
+      <button type="submit" class="btn">검색</button>
+    </form>
+  </header>
+
+  <main class="container">
+    <section class="create-box">
+      <form action="/todos" method="post" class="create-form">
+        <input type="text" name="title" placeholder="할 일을 입력하세요" required>
+        <button type="submit" class="btn primary">추가</button>
+      </form>
+    </section>
+
+    {{#filter}}
+      <div class="badge">Filter: {{.}}</div>
+    {{/filter}}
+
+    {{#todos}}
+      <div class="todo {{#done}}done{{/done}}">
+        <div class="todo-main">
+          <span class="todo-title">{{title}}</span>
+          <span class="todo-meta">
+            {{#createdAt}}{{createdAt}}{{/createdAt}}
+          </span>
+        </div>
+
+        <div class="todo-actions">
+          <!-- done 토글 -->
+          <form action="/todos/{{id}}/toggle" method="post" class="inline-form">
+            <input type="hidden" name="_method" value="patch">
+            <input type="hidden" name="id" value="{{id}}">
+            <button type="submit" class="btn small">
+              {{#done}}해제{{/done}}{{^done}}완료{{/done}}
+            </button>
+          </form>
+
+          <!-- 삭제 -->
+          <form action="/todos/{{id}}/delete" method="post" class="inline-form" onsubmit="return confirm('삭제할까요?');">
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="id" value="{{id}}">
+            <button type="submit" class="btn small danger">삭제</button>
+          </form>
+        </div>
+      </div>
+    {{/todos}}
+
+    {{^todos}}
+      <div class="empty">표시할 항목이 없습니다.</div>
+    {{/todos}}
+  </main>
+</body>
+</html>
