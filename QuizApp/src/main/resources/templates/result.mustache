@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+</head>
+<body>
+<main class="page">
+    <section class="card">
+        <div class="header">
+            <div class="title">결과</div>
+            <div class="meta">수고했어요 👏</div>
+        </div>
+
+        <div class="result">
+            <div class="score">점수: {{score}} / {{total}}</div>
+            <div class="progress" style="--w: {{score}} / {{total}} * 100%">
+                <div></div>
+            </div>
+            <div class="tagline">
+                {{#score}}
+                    {{#total}}
+                    {{/total}}
+                {{/score}}
+            </div>
+        </div>
+
+        <div class="actions" style="justify-content:center;">
+            <form method="post" action="/quiz/reset">
+                <button class="btn btn-primary" type="submit">다시 풀기</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

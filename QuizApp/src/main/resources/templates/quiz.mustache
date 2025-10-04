@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Quiz {{index}} / {{total}}</title>
+    <link rel="stylesheet" href="/css/quiz.css">
+</head>
+<body>
+<main class="page">
+    <section class="card">
+        <div class="header">
+            <div class="title">Question {{index}} / {{total}}</div>
+            <div class="meta">선택 후 제출하기</div>
+        </div>
+
+        {{! 진행률 (선택) — 컨트롤러에서 progress%를 넘기면 표시됨 }}
+        {{#progress}}
+            <div class="progress" style="--w: {{.}}%;"><div></div></div>
+        {{/progress}}
+
+        <h2 class="question">{{q.text}}</h2>
+
+        <form method="post" action="/quiz/answer">
+            <div class="choices">
+                {{#opts}}
+                    <label class="choice">
+                        <span class="dot" aria-hidden="true"></span>
+                        <input type="radio" name="choiceIndex" value="{{index}}" required>
+                        <span class="text">{{text}}</span>
+                    </label>
+                {{/opts}}
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">제출</button>
+                <button class="btn btn-ghost" form="resetForm" type="submit">처음부터</button>
+            </div>
+        </form>
+
+        <form id="resetForm" method="post" action="/quiz/reset"></form>
+        <div class="footer-note">세션에 진행상태가 저장됩니다.</div>
+    </section>
+</main>
+</body>
+</html>
