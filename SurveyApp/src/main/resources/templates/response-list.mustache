@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>응답 목록 & 집계</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="container">
+    <a class="link" href="/surveys">← 목록으로</a>
+    <h1>응답 목록</h1>
+</header>
+
+<main class="container">
+
+    <!-- ✅ 응답 목록: 중복 섹션 제거 -->
+    {{#responses}}
+        <ul class="list">
+            {{#responses}}
+                <li class="list-item">
+                    <div class="card">
+                        <div class="muted">#{{id}}</div>
+                        <pre class="pre">{{{answers}}}</pre>
+                    </div>
+                </li>
+            {{/responses}}
+        </ul>
+    {{/responses}}
+
+    {{^responses}}
+        <p class="empty">아직 제출된 응답이 없습니다.</p>
+    {{/responses}}
+
+    <!-- ✅ 집계 -->
+    {{#blocks}}
+        <section class="qcard">
+            <h2><span class="chip">Q{{questionId}}</span> {{questionText}}</h2>
+
+            {{#hasRows}}
+                <table class="stats">
+                    <thead>
+                    <tr>
+                        <th style="width:70%">응답값</th>
+                        <th style="width:30%">응답 수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#rows}}
+                        <tr>
+                            <td class="truncate">{{label}}</td>
+                            <td>{{count}}</td>
+                        </tr>
+                    {{/rows}}
+                    </tbody>
+                </table>
+            {{/hasRows}}
+
+            {{^hasRows}}
+                <p class="muted">응답 없음</p>
+            {{/hasRows}}
+        </section>
+    {{/blocks}}
+
+    {{^blocks}}
+        <p class="empty">집계 결과가 없습니다.</p>
+    {{/blocks}}
+
+</main>
+
+</body>
+</html>

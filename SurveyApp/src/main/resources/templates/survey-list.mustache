@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>설문 목록</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="container">
+    <h1>설문 목록</h1>
+</header>
+
+<main class="container">
+    <ul class="list">
+        {{#surveys}}
+            <li class="list-item">
+                <div class="card">
+                    <span class="qtext">{{title}}</span>
+                    <a class="btn" href="/surveys/{{id}}">참여하기</a>
+                    <a class="btn ghost" href="/surveys/{{id}}/responses">응답/집계 보기</a>
+                </div>
+            </li>
+        {{/surveys}}
+    </ul>
+
+    {{^surveys}}
+        <p class="empty">등록된 설문이 없습니다.</p>
+    {{/surveys}}
+</main>
+</body>
+</html>

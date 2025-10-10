@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{survey.title}}</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header class="container">
+    <a class="link" href="/surveys">← 목록으로</a>
+    <h1>{{survey.title}}</h1>
+    <p class="muted">설문 ID: {{survey.id}}</p>
+</header>
+
+<main class="container">
+    <form action="/surveys/{{survey.id}}/submit" method="post" id="surveyForm">
+
+        {{#questions}}
+            <div class="card qbox" data-qid="{{id}}">
+                <label class="qtext">Q{{id}}. {{text}}</label>
+
+                {{#isSingle}}
+                    <input class="input" type="text" name="{{id}}" placeholder="단답형으로 입력하세요">
+                    <div class="hint">단답형(SINGLE): 입력란 1개</div>
+                {{/isSingle}}
+
+                {{#isMulti}}
+                    <div class="multi-group">
+                        <input class="input" type="text" name="{{id}}" placeholder="항목 입력">
+                    </div>
+                    <div class="actions">
+                        <button class="btn outline add-row" type="button" data-target="{{id}}">+ 항목 추가</button>
+                    </div>
+                    <div class="hint">다중(MULTI): 항목 여러 개를 각각 한 줄씩 입력하세요</div>
+                {{/isMulti}}
+            </div>
+        {{/questions}}
+
+        {{^questions}}
+            <p class="empty">등록된 질문이 없습니다.</p>
+        {{/questions}}
+
+        <div class="actions">
+            <button class="btn" type="submit">제출</button>
+        </div>
+    </form>
+</main>
+
+<script>
+    // MULTI 질문: 입력란 추가
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.add-row');
+      if (!btn) return;
+      const qid = btn.getAttribute('data-target');
+      const group = document.querySelector(`.qbox[data-qid="${qid}"] .multi-group`);
+      if (!group) return;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = qid;          // 같은 name으로 여러 값 전송 → MultiValueMap으로 수집됨
+      input.placeholder = '추가 항목';
+      input.className = 'input';
+      input.style.marginTop = '8px';
+      group.appendChild(input);
+    });
+</script>
+</body>
+</html>
