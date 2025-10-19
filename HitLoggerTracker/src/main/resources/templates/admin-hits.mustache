@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recent 100 Hits</title>
+    <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+<header class="container">
+    <h1>Recent 100 Hits</h1>
+    <div class="toolbar">
+        <a class="btn" href="/admin/hits">새로고침</a>
+    </div>
+</header>
+
+<main class="container">
+    <section class="card">
+        <div class="card-header">
+            <h2>요청 로그</h2>
+            <p class="hint">최근 100건의 요청을 최신순으로 표시합니다.</p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Time (KST)</th>
+                    <th>Method</th>
+                    <th>Path</th>
+                    <th>IP</th>
+                    <th>User-Agent</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#hits}}
+                    <tr>
+                        <td class="mono">{{id}}</td>
+                        <td class="mono">{{at}}</td>
+                        <td><span class="pill pill-{{method}}">{{method}}</span></td>
+                        <td class="mono break">{{path}}</td>
+                        <td class="mono">{{ip}}</td>
+                        <td class="break">{{userAgent}}</td>
+                    </tr>
+                {{/hits}}
+
+                {{^hits}}
+                    <tr>
+                        <td colspan="6" class="empty">데이터가 없습니다.</td>
+                    </tr>
+                {{/hits}}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>
