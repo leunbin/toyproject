@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="/css/files.css">
+</head>
+<body>
+
+<div class="container">
+
+    <form class="upload-form"
+          action="/files"
+          method="post"
+          enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <button type="submit">Upload</button>
+    </form>
+
+    <ul class="file-list">
+        {{#files}}
+            <li class="file-item">
+                <span class="file-name">{{originalName}}</span>
+                <a class="download-link" href="/files/{{id}}">다운로드</a>
+            </li>
+        {{/files}}
+    </ul>
+
+</div>
+
+</body>
+</html>
